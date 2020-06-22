@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import params
 
 alpha = 1.6732632423543772848170429916717
 gamma = 1.0507009873554804934193349852946
@@ -83,3 +84,6 @@ def mapMinMaxLog(ls):
     range = maximum - minimum
     return [2. * (np.log(x - minimum + 1) / np.log(maximum - minimum + 1)) - 1. for x in ls]
     #print(ls)
+    
+def eta(epoch):
+    return params.eta0 / (1 + params.decayRate * epoch)

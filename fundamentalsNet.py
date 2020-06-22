@@ -53,8 +53,7 @@ class fundamentalsNet:
         else:
             raise ValueError("fundamentalsNet.py only supports 3, 4, or 5 layered networks. Please enter tuple of length 1, 2, or 3, respectively, in the form (layerTwoSize, (layerThreeSize), (layerFourSize)), where the first and final layer is not of variable length so you should not set it.")
         self.LAYER5SIZE = 2
-        
-        self.eta = params.eta
+
         self.dropoutRate = params.dropoutRate
         self.dataPointsPerBatch = params.dataPointsPerBatch
         self.numTrainingEpochs = params.numTrainingEpochs
@@ -242,7 +241,7 @@ class fundamentalsNet:
         else:
             return (correctDirection, squaredError, gradientLayer43Weights, gradientLayer54Weights, gradientLayer4Biases, gradientLayer5Biases)
 
-    def runBatch(self):
+    def runBatch(self, epoch):
         #Runs a batch of data, logs average gradients and error
         totalCorrectDirection = 0
         totalSquaredError = 0
@@ -300,15 +299,15 @@ class fundamentalsNet:
         
         #Updates weights and biases accordingly
         if self.numLayers == 5:
-            self.layer21Weights = np.subtract(self.layer21Weights, np.multiply(averageGradientLayer21Weights, self.eta))
-            self.layer2Biases = np.subtract(self.layer2Biases, np.multiply(averageGradientLayer2Biases, self.eta))
+            self.layer21Weights = np.subtract(self.layer21Weights, np.multiply(averageGradientLayer21Weights, sF.eta(epoch)))
+            self.layer2Biases = np.subtract(self.layer2Biases, np.multiply(averageGradientLayer2Biases, sF.eta(epoch)))
         if self.numLayers == 4:
-            self.layer32Weights = np.subtract(self.layer32Weights, np.multiply(averageGradientLayer32Weights, self.eta))
-            self.layer3Biases = np.subtract(self.layer3Biases, np.multiply(averageGradientLayer3Biases, self.eta))
-        self.layer43Weights = np.subtract(self.layer43Weights, np.multiply(averageGradientLayer43Weights, self.eta))
-        self.layer54Weights = np.subtract(self.layer54Weights, np.multiply(averageGradientLayer54Weights, self.eta))
-        self.layer4Biases = np.subtract(self.layer4Biases, np.multiply(averageGradientLayer4Biases, self.eta))
-        self.layer5Biases = np.subtract(self.layer5Biases, np.multiply(averageGradientLayer5Biases, self.eta))
+            self.layer32Weights = np.subtract(self.layer32Weights, np.multiply(averageGradientLayer32Weights, sF.eta(epoch)))
+            self.layer3Biases = np.subtract(self.layer3Biases, np.multiply(averageGradientLayer3Biases, sF.eta(epoch)))
+        self.layer43Weights = np.subtract(self.layer43Weights, np.multiply(averageGradientLayer43Weights, sF.eta(epoch)))
+        self.layer54Weights = np.subtract(self.layer54Weights, np.multiply(averageGradientLayer54Weights, sF.eta(epoch)))
+        self.layer4Biases = np.subtract(self.layer4Biases, np.multiply(averageGradientLayer4Biases, sF.eta(epoch)))
+        self.layer5Biases = np.subtract(self.layer5Biases, np.multiply(averageGradientLayer5Biases, sF.eta(epoch)))
         
         return averageSquaredError, correctDirectionRate
         
@@ -317,7 +316,7 @@ class fundamentalsNet:
         for epoch in range (self.numTrainingEpochs):
             if (epoch == 1):
                 start = time.perf_counter()
-            averageSquaredError, correctDirectionRate  = self.runBatch()
+            averageSquaredError, correctDirectionRate  = self.runBatch(epoch)
             averageSquaredErrorProgress += averageSquaredError
             correctDirectionRateProgress += correctDirectionRate
             if (epoch == 1):
