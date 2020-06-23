@@ -491,7 +491,7 @@ class fundamentalsNet:
             if correctDirection:
                 totalCorrectDirection += 1
             print("Test %r || True Value = %r || Correct : %r || Guessed %r%% Up, %r%% Down" %(test, trueResult, correctDirection, round(guessedResult[0] * 100., 4), round(guessedResult[1] * 100., 4)))
-        print("Testing over")
+        print("\nTesting over\n")
         print("%r fraction of companies outperformed the S and P" %(float(trueTotalUp) / float(self.numTestingPoints)))
         print("%r fraction of companies were guessed to outperform the S and P" %(float(guessedTotalUp) / float(self.numTestingPoints)))
         print("%r fraction of companies had their performance correctly guessed, or %r / %r" %(float(totalCorrectDirection) / float(self.numTestingPoints), totalCorrectDirection, self.numTestingPoints))
@@ -561,14 +561,14 @@ class fundamentalsNet:
         
         #Now look at companies which I'm actually interested in predicting
         inputData = self.dataObj.getPLNTDataPoint()
-        print("PLNT")
-        print(inputData)
+        print("\nPLNT")
+        #print(inputData)
         guessedResult = self.sendThroughNetCompaniesToLookAt(inputData)
         print("Prediction for PLNT: %r%% Up, %r%% Down" %(round(guessedResult[0] * 100., 4), round(guessedResult[1] * 100., 4)))
         
         inputData = self.dataObj.getNYTDataPoint()
-        print("NYT")
-        print(inputData)
+        print("\nNYT")
+        #print(inputData)
         guessedResult = self.sendThroughNetCompaniesToLookAt(inputData)
         print("Prediction for NYT: %r%% Up, %r%% Down" %(round(guessedResult[0] * 100., 4), round(guessedResult[1] * 100., 4)))
         

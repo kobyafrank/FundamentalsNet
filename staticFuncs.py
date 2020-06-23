@@ -86,4 +86,4 @@ def mapMinMaxLog(ls):
     #print(ls)
     
 def eta(epoch):
-    return params.eta0 / (1 + params.decayRate * epoch)
+    return params.eta0 / (1. + params.decayRate * epoch)
